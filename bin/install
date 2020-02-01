@@ -23,9 +23,12 @@ install_kops() {
   local download_path="$tmp_download_dir/$(get_filename $platform)"
 
   echo "Downloading kops from ${download_url} to ${binary_path}"
-  curl -Lo $binary_path $download_url
-
-  chmod +x ${binary_path}
+  if curl -Lfs "${download_url}" -o "${binary_path}"; then
+    chmod +x "${binary_path}"
+  else
+    echo "Error: kops ${version} not found. Run 'asdf list-all kops' for available versions." >&2
+    exit 1
+  fi
 }
 
 get_filename() {
