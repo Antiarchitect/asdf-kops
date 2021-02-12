@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-releases_path=https://api.github.com/repos/kubernetes/kops/releases
+releases_path=https://api.github.com/repos/kubernetes/kops/releases\?per_page=100
 cmd="curl -s"
 if [ -n "$GITHUB_API_TOKEN" ]; then
   cmd="$cmd -H 'Authorization: token $GITHUB_API_TOKEN'"
