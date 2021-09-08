@@ -1,6 +1,6 @@
 # asdf-kops
 
-[![Build Status](https://travis-ci.org/Antiarchitect/asdf-kops.svg?branch=master)](https://travis-ci.org/Antiarchitect/asdf-kops)
+![GitHub Actions Status](https://github.com/Antiarchitect/asdf-kops/workflows/Test/badge.svg?branch=master)
 
 [kops](https://github.com/kubernetes/kops) plugin for [asdf](https://github.com/asdf-vm/asdf) version manager.
 
