@@ -7,7 +7,7 @@ install_kops() {
   local install_type=$1
   local version=$2
   local install_path=$3
-  local platform="$(uname | tr '[:upper:]' '[:lower:]')-amd64"
+  local platform="$(uname | tr '[:upper:]' '[:lower:]')-$(get_arch)"
   local bin_install_path="$install_path/bin"
   local binary_path="$bin_install_path/kops"
   local download_url=$(get_download_url $version $platform)
@@ -29,6 +29,15 @@ install_kops() {
     echo "Error: kops ${version} not found. Run 'asdf list-all kops' for available versions." >&2
     exit 1
   fi
+}
+
+get_arch() {
+  ARCH=$(uname -m)
+  case $ARCH in
+    x86_64) ARCH="amd64";;
+    arm64|aarch64) ARCH="arm64";;
+  esac
+  echo "$ARCH"
 }
 
 get_filename() {
