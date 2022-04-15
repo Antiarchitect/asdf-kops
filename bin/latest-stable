@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
 
-if [ -n "$GITHUB_API_TOKEN" ]; then
-  auth="'Authorization: token $GITHUB_API_TOKEN'"
-fi
+GIVEN_VERSION=$1
 
-get_latest_release="curl -s $auth https://api.github.com/repos/kubernetes/kOps/releases/latest"
-if which jq >/dev/null 2>&1; then
-    $get_latest_release | jq -r .tag_name
+if [[ $GIVEN_VERSION == "[0-9]" || $GIVEN_VERSION == "" ]]; then
+
+  if [ -n "$GITHUB_API_TOKEN" ]; then
+    auth="'Authorization: token $GITHUB_API_TOKEN'"
+  fi
+
+  get_latest_release="curl -s $auth https://api.github.com/repos/kubernetes/kOps/releases/latest"
+  if which jq >/dev/null 2>&1; then
+      $get_latest_release | jq -r .tag_name
+  else
+      $get_latest_release | grep tag_name | cut -f 2  -d ":" | cut -f "2" -d '"'
+  fi
 else
-    $get_latest_release | grep tag_name | cut -f 2  -d ":" | cut -f "2" -d '"'
+  $(dirname $BASH_SOURCE)/list-all | tr " " "\n" | grep -E "^$GIVEN_VERSION(.[0-9]+)*$" | tail -1
 fi
